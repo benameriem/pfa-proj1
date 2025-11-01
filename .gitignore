@@ -1,0 +1,12 @@
+node_modules
+README.md
+public/*
+package-lock.json
+uploads/*
+.DS_Store
+
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
