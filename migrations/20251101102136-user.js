@@ -1,40 +1,44 @@
 "use strict";
 
-const {department } = require("../utils/constants");
+const { userRoleList, userDepartmentList } = require("../utils/constants");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable(
-      "Users",
-      {
-        id: {
-          type: Sequelize.DataTypes.INTEGER,
-          primaryKey: true,
-          autoIncrement: true,
-        },
-       name:{
-          type: Sequelize.DataTypes.TEXT,
-          allowNull: true,
-       },
-        email: {
-          type: Sequelize.DataTypes.STRING,
-          allowNull: false,
-          unique: true,
-        },
-      
-        password: {
-          type: Sequelize.DataTypes.TEXT,
-        },
-       
-        department: {
-          type: Sequelize.DataTypes.ENUM(Object.keys(department)),
-          allowNull: true,
-        },
-        
+    await queryInterface.createTable("Users", {
+      id: {
+        type: Sequelize.DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
       },
-      
-    );
+      name: {
+        type: Sequelize.DataTypes.TEXT,
+        allowNull: true,
+      },
+
+      email: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+
+      password: {
+        type: Sequelize.DataTypes.TEXT,
+        allowNull: false,
+      },
+
+      role: {
+        type: Sequelize.DataTypes.ENUM(Object.keys(userRoleList)),
+        allowNull: true,
+        defaultValue: userRoleList.EMPLOYEE,
+      },
+
+      department: {
+        type: Sequelize.DataTypes.ENUM(Object.keys(userDepartmentList)),
+        allowNull: true,
+        defaultValue: userDepartmentList.GLOBAL,
+      },
+    });
   },
 
   async down(queryInterface, Sequelize) {
