@@ -9,7 +9,9 @@ exports.signup = async (req, res) => {
     const oldUser = await User.findOne({ where: { email } });
 
     if (oldUser) {
-      throw new Error("User with this email already exists");
+      return res.status(401).json({
+        message: "User with this email already exists ",
+      });
     }
 
     const newUser = await User.create({
@@ -36,7 +38,7 @@ exports.signup = async (req, res) => {
       .status(200)
       .json({ message: "User signed up successfully", newUser, token });
   } catch (error) {
-    throw new Error("Signup failed: " + error.message);
+    return res.status(500).json({ message: "Signup failed ", error: message });
   }
 };
 
@@ -47,7 +49,9 @@ exports.signin = async (req, res) => {
     const exisitingUser = await User.findOne({ where: { email } });
 
     if (!exisitingUser) {
-      throw new Error("Credentials are incorrect");
+      return res.status(401).json({
+        message: "Credentials are incorrect",
+      });
     }
     const isPasswordValid = await bcrypt.compare(
       password,
@@ -55,7 +59,9 @@ exports.signin = async (req, res) => {
     );
 
     if (!isPasswordValid) {
-      throw new Error("Credentials are incorrect");
+      return res.status(401).json({
+        message: "Credentials are incorrect",
+      });
     }
 
     const token = jwt.sign(
@@ -78,6 +84,9 @@ exports.signin = async (req, res) => {
       token,
     });
   } catch (error) {
-    throw new Error("Signup failed: " + error.message);
+    return res.status(500).json({
+      message: "Signin failed ",
+      error,
+    });
   }
 };
