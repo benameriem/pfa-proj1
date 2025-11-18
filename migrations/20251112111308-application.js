@@ -1,6 +1,10 @@
 "use strict";
 
-const { applicationStatusList } = require("../utils/constants");
+const {
+  applicationStatusList,
+  applicationPerformanceList,
+  departmentList,
+} = require("../utils/constants");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -23,19 +27,29 @@ module.exports = {
       },
 
       performance: {
-        type: Sequelize.DataTypes.STRING,
+        type: Sequelize.DataTypes.ENUM(
+          Object.values(applicationPerformanceList)
+        ),
         allowNull: true,
+        defaultValue: applicationPerformanceList.Bon,
       },
 
       department: {
-        type: Sequelize.DataTypes.STRING,
-        allowNull: true,
+        type: Sequelize.DataTypes.ENUM(Object.values(departmentList)),
+        allowNull: false,
+        defaultValue: departmentList.GLOBAL,
       },
 
       status: {
-        type: Sequelize.DataTypes.ENUM(Object.keys(applicationStatusList)),
+        type: Sequelize.DataTypes.ENUM(Object.values(applicationStatusList)),
         allowNull: true,
         defaultValue: applicationStatusList.ACTIVE,
+      },
+
+      created_at: {
+        type: Sequelize.DataTypes.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
     });
   },

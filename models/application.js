@@ -1,7 +1,11 @@
 // Load modules
 const { DataTypes } = require("sequelize");
 const database = require("../config/database");
-const { applicationStatusList } = require("../utils/constants");
+const {
+  applicationStatusList,
+  applicationPerformanceList,
+  departmentList,
+} = require("../utils/constants");
 
 const Application = database.define(
   "Application",
@@ -23,19 +27,27 @@ const Application = database.define(
     },
 
     performance: {
-      type: DataTypes.STRING,
-      allowNull: true,
+      type: DataTypes.ENUM(Object.values(applicationPerformanceList)),
+      allowNull: false,
+      defaultValue: applicationPerformanceList.Bon,
     },
 
     department: {
-      type: DataTypes.STRING,
-      allowNull: true,
+      type: DataTypes.ENUM(Object.values(departmentList)),
+      allowNull: false,
+      defaultValue: departmentList.GLOBAL,
     },
 
     status: {
       type: DataTypes.ENUM(Object.values(applicationStatusList)),
       allowNull: false,
       defaultValue: applicationStatusList.ACTIVE,
+    },
+
+    created_at: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
     },
   },
   {

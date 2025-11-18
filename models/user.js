@@ -2,7 +2,7 @@
 const { DataTypes } = require("sequelize");
 const database = require("../config/database");
 
-const { userRoleList, userDepartmentList } = require("../utils/constants");
+const { userRoleList, departmentList } = require("../utils/constants");
 
 const User = database.define(
   "User",
@@ -35,9 +35,9 @@ const User = database.define(
       defaultValue: userRoleList.EMPLOYEE,
     },
     department: {
-      type: DataTypes.ENUM(Object.keys(userDepartmentList)),
+      type: DataTypes.ENUM(Object.keys(departmentList)),
       allowNull: false,
-      defaultValue: userDepartmentList.GLOBAL,
+      defaultValue: departmentList.GLOBAL,
     },
   },
   {

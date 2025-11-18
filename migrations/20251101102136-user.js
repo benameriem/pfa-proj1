@@ -1,6 +1,6 @@
 "use strict";
 
-const { userRoleList, userDepartmentList } = require("../utils/constants");
+const { userRoleList, departmentList } = require("../utils/constants");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -34,9 +34,9 @@ module.exports = {
       },
 
       department: {
-        type: Sequelize.DataTypes.ENUM(Object.keys(userDepartmentList)),
+        type: Sequelize.DataTypes.ENUM(Object.keys(departmentList)),
         allowNull: true,
-        defaultValue: userDepartmentList.GLOBAL,
+        defaultValue: departmentList.GLOBAL,
       },
     });
   },
